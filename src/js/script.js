@@ -32,11 +32,22 @@
     render(){
       const thisBooksApp = this;
     
-      const bookContainer = document.querySelector(select.elements.booksList);
-
       for(let book of dataSource.books) {
-        const generatedHTML = templates.bookTemplate(book);
+        const ratingBgc = thisBooksApp.determineRatingBgc(book.rating);
+        const ratingWidth = book.rating * 10;
+
+        const generatedHTML = templates.bookTemplate({
+          id: book.id,
+          name: book.name,
+          price: book.price,
+          image: book.image,
+          rating: book.rating,
+          ratingBgc: ratingBgc,
+          ratingWidth: ratingWidth,
+        });
+        
         thisBooksApp.element = utils.createDOMFromHTML(generatedHTML);
+        const bookContainer = document.querySelector(select.elements.booksList);
         bookContainer.appendChild(thisBooksApp.element);
       }
     }
@@ -112,6 +123,23 @@
         }
       }
     }
+
+    determineRatingBgc(rating) {
+      let ratingStyle = '';
+
+      if(rating < 6){
+        ratingStyle = 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%)';
+      } else if(rating > 6 && rating <= 8){
+        ratingStyle = 'linear-gradient(to bottom, #b4df5b 0%, #b4df5b 100%)';
+      } else if(rating > 8 && rating <= 9){
+        ratingStyle = 'linear-gradient(to bottom, #299a0b 0%, #299a0b 100%)';
+      } else if(rating > 9){
+        ratingStyle = 'linear-gradient(to bottom, #ff0084 0%, #ff0084 100%)';
+      }
+  
+      return ratingStyle;
+    }
+    
   }
   new BooksApp();
 }
