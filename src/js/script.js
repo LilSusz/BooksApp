@@ -20,13 +20,18 @@
   class BooksApp {
     constructor(){
       const thisBooksApp = this;
-  
-      thisBooksApp.favoriteBooks = [];
-      thisBooksApp.filters = [];
       
+      thisBooksApp.initData();
       thisBooksApp.render();
       thisBooksApp.initActions();
-      
+    }
+
+    initData(){
+      const thisBooksApp = this;
+
+      thisBooksApp.data = dataSource.books;
+      thisBooksApp.favoriteBooks = [];
+      thisBooksApp.filters = [];
     }
 
     render(){
@@ -45,7 +50,7 @@
           ratingBgc: ratingBgc,
           ratingWidth: ratingWidth,
         });
-        
+
         thisBooksApp.element = utils.createDOMFromHTML(generatedHTML);
         const bookContainer = document.querySelector(select.elements.booksList);
         bookContainer.appendChild(thisBooksApp.element);
